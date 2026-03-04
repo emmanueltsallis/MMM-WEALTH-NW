@@ -52,12 +52,11 @@ This auto-detects your platform, checks dependencies, and compiles the `lsdNW` e
 ### Run all 4 scenarios at once
 
 ```bash
-./run_all.sh              # 50 seeds each, sequential
-./run_all.sh 10           # 10 seeds each, sequential
-./run_all.sh 50 4:5       # 50 seeds, 5 parallel runs with 4 threads each
+./run_all.sh              # 50 seeds each
+./run_all.sh 10           # 10 seeds each (faster)
 ```
 
-This launches all 4 scenarios simultaneously. The optional second argument controls parallelism within each scenario (see `-c` flag below). On machines with limited resources, run scenarios one at a time instead.
+This launches all 4 scenarios simultaneously (one process each, seeds run sequentially). On machines with limited resources, run scenarios one at a time instead.
 
 ### Quick test (minimal config, ~2 seconds)
 
@@ -88,7 +87,8 @@ The scenarios default to **10,000 households**. Larger populations produce riche
 | `-r` | | Skip per-seed result files (totals only) |
 | `-z` | | Disable compression (produce `.res` instead of `.res.gz`) |
 | `-l` | `FILE` | Redirect log/diagnostic output to a file |
-| `-c` | `T:R` | Parallel mode: R simultaneous runs, T threads each |
+| `-c` | `T` | Use T threads for within-run parallelism |
+| `-c` | `T:R` | Run R seeds in parallel, T threads each (advanced) |
 
 ---
 
