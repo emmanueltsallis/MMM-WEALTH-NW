@@ -49,6 +49,20 @@ This auto-detects your platform, checks dependencies, and compiles the `lsdNW` e
 ./lsdNW -f Scenario_0.lsd -s 1 -e 50 -o Results_Scenario_0 -b
 ```
 
+| Flag | Argument | Description |
+|------|----------|-------------|
+| `-f` | `FILE.lsd` | Configuration file (required) |
+| `-s` | `SEED` | Starting random seed (default: from .lsd file) |
+| `-e` | `RUNS` | Number of Monte Carlo runs (default: from .lsd file) |
+| `-o` | `PATH` | Output directory (created if needed) |
+| `-b` | | Show progress bar |
+| `-t` | | Output CSV instead of binary `.res` format |
+| `-r` | | Skip per-seed result files (totals only) |
+| `-z` | | Disable compression (produce `.res` instead of `.res.gz`) |
+| `-l` | `FILE` | Redirect log/diagnostic output to a file |
+| `-c` | `T` | Use T threads for within-run parallelism |
+| `-c` | `T:R` | Run R seeds in parallel, T threads each (advanced) |
+
 ### Run all 4 scenarios at once
 
 ```bash
@@ -67,28 +81,6 @@ This launches all 4 scenarios simultaneously (one process each, seeds run sequen
 ### Household population
 
 The scenarios default to **10,000 households**. Larger populations produce richer distributional dynamics but take longer to run. The `Test_NW.lsd` config uses 50 households for quick tests. To change the population, edit the `country_total_population` parameter in the `.lsd` file using the LSD browser.
-
----
-
-## Command-Line Reference
-
-```
-./lsdNW -f FILENAME.lsd [OPTIONS]
-```
-
-| Flag | Argument | Description |
-|------|----------|-------------|
-| `-f` | `FILE.lsd` | Configuration file (required) |
-| `-s` | `SEED` | Starting random seed (default: from .lsd file) |
-| `-e` | `RUNS` | Number of Monte Carlo runs (default: from .lsd file) |
-| `-o` | `PATH` | Output directory (created if needed) |
-| `-b` | | Show progress bar |
-| `-t` | | Output CSV instead of binary `.res` format |
-| `-r` | | Skip per-seed result files (totals only) |
-| `-z` | | Disable compression (produce `.res` instead of `.res.gz`) |
-| `-l` | `FILE` | Redirect log/diagnostic output to a file |
-| `-c` | `T` | Use T threads for within-run parallelism |
-| `-c` | `T:R` | Run R seeds in parallel, T threads each (advanced) |
 
 ---
 
