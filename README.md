@@ -86,6 +86,8 @@ The scenarios default to **10,000 households**. Larger populations produce riche
 | `-t` | | Output CSV instead of binary `.res` format |
 | `-r` | | Skip per-seed result files (totals only) |
 | `-z` | | Disable compression (produce `.res` instead of `.res.gz`) |
+| `-l` | `FILE` | Redirect log/diagnostic output to a file |
+| `-c` | `T:R` | Parallel mode: R simultaneous runs, T threads each |
 
 ---
 
