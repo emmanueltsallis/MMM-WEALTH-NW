@@ -64,6 +64,10 @@ This launches all 4 scenarios in parallel. On machines with limited resources, r
 ./lsdNW -f Test_NW.lsd -s 1 -e 1 -b
 ```
 
+### Household population
+
+The scenarios default to **10,000 households**. Larger populations produce richer distributional dynamics but take longer to run. The `Test_NW.lsd` config uses 50 households for quick tests. To change the population, edit the `country_total_population` parameter in the `.lsd` file using the LSD browser.
+
 ---
 
 ## Command-Line Reference
