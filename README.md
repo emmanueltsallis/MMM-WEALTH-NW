@@ -119,7 +119,7 @@ To start fresh:
 
 If you use this model in your research, please cite:
 
-> Pedrosa, E. (2026). *A Kaleckian Framework for Wealth Inequality in Agent-Based Macroeconomic Models*. Master's Thesis, UFRJ.
+> Tsallis, E. (2026). *An Agent-Based Analysis of Wealth Distribution: Modeling a Wealth Tax subject to Evasion Dynamics and Capital Flight*. Master's Thesis, UFRJ.
 
 ---
 
