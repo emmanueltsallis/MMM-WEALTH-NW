@@ -49,12 +49,14 @@ This auto-detects your platform, checks dependencies, and compiles the `lsdNW` e
 ./lsdNW -f Scenario_0.lsd -s 1 -e 50 -o Results_Scenario_0 -b
 ```
 
-### Run all 4 scenarios in parallel
+### Run all 4 scenarios at once
 
 ```bash
 ./run_all.sh          # 50 seeds each (default)
 ./run_all.sh 10       # 10 seeds each (faster)
 ```
+
+This launches all 4 scenarios in parallel. On machines with limited resources, run them one at a time instead.
 
 ### Quick test (minimal config, ~2 seconds)
 
