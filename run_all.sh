@@ -84,12 +84,14 @@ while pgrep -x lsdNW > /dev/null 2>&1; do
     done
 
     printf "\r  [%02dm %02ds]%s    " "$MINS" "$SECS" "$STATUS"
-    sleep 3
+    sleep 1
 done
 wait
 
 ELAPSED=$SECONDS
-echo ""
+MINS=$((ELAPSED / 60))
+SECS=$((ELAPSED % 60))
+printf "\r  [%02dm %02ds]  S0: done  S1: done  S2: done  S3: done    \n" "$MINS" "$SECS"
 
 # Clean up temp files if created
 if [ -n "$CLEANUP_FILES" ]; then

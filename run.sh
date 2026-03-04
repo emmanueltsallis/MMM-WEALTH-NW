@@ -75,11 +75,14 @@ while pgrep -x lsdNW > /dev/null 2>&1; do
         PCT=$(grep '^[.0-9%]*$' "$LOG" 2>/dev/null | grep -o '[0-9]*%' | tail -1)
         printf "\r  [%02dm %02ds]  Seed %s/%s  %s    " "$MINS" "$SECS" "${SEED:-?}" "$SEEDS" "${PCT:-0%}"
     fi
-    sleep 3
+    sleep 1
 done
 wait
 
 ELAPSED=$SECONDS
+MINS=$((ELAPSED / 60))
+SECS=$((ELAPSED % 60))
+printf "\r  [%02dm %02ds]  Seed %s/%s  100%%    \n" "$MINS" "$SECS" "$SEEDS" "$SEEDS"
 
 # Clean up temp file if created
 if [ -n "$TMP" ]; then
