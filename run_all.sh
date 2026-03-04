@@ -1,18 +1,18 @@
 #!/bin/bash
 # =============================================================
-# run_all.sh — Run all 4 MMM-WEALTH scenarios in parallel
+# run_all.sh — Run all 4 MMM-WEALTH scenarios
 # =============================================================
-# Each scenario runs 50 Monte Carlo seeds with progress bars.
-# Results are saved to Results_Scenario_N/ directories.
 #
 # Usage:
-#   ./run_all.sh              Run all 4 scenarios (50 seeds each)
-#   ./run_all.sh 10           Run all 4 scenarios (10 seeds each)
+#   ./run_all.sh                     50 seeds, sequential
+#   ./run_all.sh 10                  10 seeds, sequential
+#   ./run_all.sh 50 4:5              50 seeds, 5 parallel runs with 4 threads each
 # =============================================================
 
 set -e
 
 SEEDS="${1:-50}"
+PARALLEL="${2:-}"
 
 if [ ! -f ./lsdNW ]; then
     echo "Error: lsdNW not found. Run ./build.sh first."
@@ -22,8 +22,16 @@ fi
 echo "=============================================="
 echo "  MMM-WEALTH — Running All 4 Scenarios"
 echo "  Seeds per scenario: $SEEDS"
+if [ -n "$PARALLEL" ]; then
+    echo "  Parallel mode: -c $PARALLEL"
+fi
 echo "=============================================="
 echo ""
+
+PARALLEL_FLAG=""
+if [ -n "$PARALLEL" ]; then
+    PARALLEL_FLAG="-c $PARALLEL"
+fi
 
 for i in 0 1 2 3; do
     DIR="Results_Scenario_${i}"
@@ -32,6 +40,7 @@ for i in 0 1 2 3; do
     ./lsdNW -f "Scenario_${i}.lsd" -s 1 -e "$SEEDS" \
         -o "$DIR" \
         -l "${DIR}/run.log" \
+        $PARALLEL_FLAG \
         -b &
 done
 
