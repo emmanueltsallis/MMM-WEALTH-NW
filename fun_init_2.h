@@ -48,6 +48,11 @@ if(working_class != NULL && capitalist_class != NULL)
     v[950] = VS(country, "country_total_population");      // Total households (e.g., 100)
     v[951] = VS(country, "capitalist_population_share");   // Capitalist share (e.g., 0.05 = 5%)
     v[952] = round(v[950] * v[951]);                       // Target capitalists
+    if(v[952] < 1 && v[950] >= 2)                          // Ensure at least 1 capitalist
+    {
+        v[952] = 1;
+        LOG("\n  WARNING: Population too small for %.1f%% capitalist share. Forcing 1 capitalist.", v[951] * 100);
+    }
     v[954] = v[950] - v[952];                              // Target workers
 
     // Count current households in each class

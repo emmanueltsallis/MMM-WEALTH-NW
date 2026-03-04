@@ -45,7 +45,14 @@ This auto-detects your platform, checks dependencies, and compiles the `lsdNW` e
 ### Run a single scenario
 
 ```bash
-# Run Scenario 0 with 50 Monte Carlo seeds, showing progress
+./run.sh 0              # Scenario 0, 50 seeds, default population
+./run.sh 0 10           # Scenario 0, 10 seeds
+./run.sh 0 10 500       # Scenario 0, 10 seeds, 500 households
+```
+
+Or directly with `lsdNW`:
+
+```bash
 ./lsdNW -f Scenario_0.lsd -s 1 -e 50 -o Results_Scenario_0 -b
 ```
 
@@ -66,11 +73,12 @@ This auto-detects your platform, checks dependencies, and compiles the `lsdNW` e
 ### Run all 4 scenarios at once
 
 ```bash
-./run_all.sh              # 50 seeds each
-./run_all.sh 10           # 10 seeds each (faster)
+./run_all.sh              # 50 seeds, 10000 households (defaults)
+./run_all.sh 10           # 10 seeds, 10000 households
+./run_all.sh 10 500       # 10 seeds, 500 households (faster)
 ```
 
-This launches all 4 scenarios simultaneously (one process each, seeds run sequentially). On machines with limited resources, run scenarios one at a time instead.
+This launches all 4 scenarios simultaneously (one process each, seeds run sequentially). The second argument overrides the household population without modifying the original scenario files. On machines with limited resources, run scenarios one at a time instead.
 
 ### Quick test (minimal config, ~2 seconds)
 
@@ -80,7 +88,7 @@ This launches all 4 scenarios simultaneously (one process each, seeds run sequen
 
 ### Household population
 
-The scenarios default to **10,000 households**. Larger populations produce richer distributional dynamics but take longer to run. The `Test_NW.lsd` config uses 50 households for quick tests. To change the population, edit the `country_total_population` parameter in the `.lsd` file using the LSD browser.
+The scenarios default to **10,000 households**. Larger populations produce richer distributional dynamics but take longer to run. The `Test_NW.lsd` config uses 50 households for quick tests.
 
 ---
 

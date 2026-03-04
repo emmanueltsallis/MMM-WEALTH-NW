@@ -1129,7 +1129,7 @@ Var: Diagnostic_Trigger 0 s + n n
 Param: household_income_tax_rate 0 n + n n	0.16
 Param: wealth_tax_rate 0 n + n n	0
 Param: wealth_tax_threshold 0 s + n n	8613
-Var: Country_Wealth_Tax_Revenue 0 s + n n
+Var: Country_Wealth_Tax_Revenue 1 s + n n	0
 Var: Country_Wealth_Tax_Taxpayer_Count 0 s + n n
 Var: Country_Wealth_Tax_From_Deposits 0 s + n n
 Var: Country_Wealth_Tax_From_Assets 0 s + n n
