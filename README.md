@@ -35,12 +35,12 @@ This auto-detects your platform, checks dependencies, and compiles the `lsdNW` e
 
 ### Choose a scenario
 
-| Scenario | File | Description |
-|----------|------|-------------|
-| 0 | `Scenario_0.lsd` | Baseline (no wealth tax, no evasion) |
-| 1 | `Scenario_1.lsd` | Wealth tax active |
-| 2 | `Scenario_2.lsd` | Wealth tax + evasion |
-| 3 | `Scenario_3.lsd` | Wealth tax + evasion + capital flight |
+| Scenario | File | Description | Wealth Tax | Evasion | Gov. Enforcement |
+|----------|------|-------------|:----------:|:-------:|:----------------:|
+| 0 | `Scenario_0.lsd` | **Baseline** | - | - | - |
+| 1 | `Scenario_1.lsd` | **Action** | 0.76% | - | - |
+| 2 | `Scenario_2.lsd` | **Reaction** | 0.76% | Active | - |
+| 3 | `Scenario_3.lsd` | **Counter-reaction** | 0.76% | Active | Active |
 
 ### Run a single scenario
 
