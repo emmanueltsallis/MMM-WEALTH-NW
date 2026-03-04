@@ -1,0 +1,379 @@
+MICRO-MACRO MULTISECTORAL MODEL - WEALTH DISAGGREGATION (ver. 1.0)
+
+*********************************************************************************************************************************************
+
+This is the MMM-WEALTH model, a household-disaggregated extension of the model created by Dweck (2006) and used in Dweck, Vianna and Barbosa (2018).
+Extended for wealth disaggregation and inequality dynamics.
+Original coded by Matheus Vianna. Wealth extension by Emmanuel Tsallis for his master's dissertation, under the supervision of Italo Pedrosa.
+
+*********************************************************************************************************************************************
+
+ORIGIN:
+
+The origin of the MMM model can be traced back to Mario Possas's Ph.D. Thesis (Possas 1983). The model combines theoretical propositions from Keynes, Kalecki and Schumpeter to explain the main components of capitalist economy dynamics.
+The MMM-WEALTH extension transforms the original class-based representative-agent framework into a household-disaggregated model, preserving stock-flow consistency while enabling endogenous wealth inequality dynamics.
+
+THEORETICAL FOUNDATIONS:
+
+The model is grounded in heterodox macroeconomics, rejecting neoclassical optimization-equilibrium methodology:
+
+	Post-Keynesian: Effective demand primacy; fundamental uncertainty; money non-neutrality; demand-driven production; liquidity preference; endogenous money via bank lending.
+	Kaleckian: Profit-wage conflict; markup pricing; capacity utilization as adjusting variable; class/type income shares; cost-plus pricing.
+	Evolutionary/Neo-Schumpeterian: Bounded rationality; routines and learning; selection via competition; firm heterogeneity; R&D and imitation.
+	Complexity Economics: Emergence; path dependence; far-from-equilibrium dynamics; agent interactions generate macro patterns.
+	Stock-Flow Consistent (SFC): Balance sheet coherence; no black holes; every flow has counterpart; accounting identities verified continuously.
+
+The model adopts an open-systems ontology where causation is tendential, agents are boundedly rational, time is historical with path dependence, and equilibrium is rejected as organizing concept.
+
+MODEL DESCRIPTION AND FEATURES:
+
+The MMM-WEALTH model extends the original multisectoral micro-macro dynamic simulation model with household disaggregation:
+
+Multisectoral: General dynamic properties derive from intersectoral relationships using input-output matrices. Sectors differ by position in the productive chain (capital goods, intermediate goods, consumption goods). The model runs with minimum one sector of each type.
+
+Dynamic: The model generates dynamic trajectories in discrete time steps. It is a disequilibrium model with causality based on decisions to produce and spend. The basic time unit is one production period (quarter).
+
+Micro-Macro: Decisions happen at firm and household levels. Consequences affect sectoral and macro levels through feedback mechanisms.
+
+Household Disaggregation (NEW): The transformation from class-based to household-based modeling:
+	- From 3 income classes (A, B, C) to N individual households (100-10,000+)
+	- From class-average parameters to individual parameters via distributions
+	- From exogenous parametric income shares to endogenous from labor market + q-exponential
+	- From between-class inequality to within-type + between-type (Kaleckian + Piketty)
+	- From linear MPC by class to Duesenberry ratchet with habit formation
+	- From implicit employment to explicit MARKOV transitions (capacity-driven)
+	- From aggregated deposits/loans to individual balance sheets with financial assets
+
+Agent-Based: Firms and households are main agents. Firms decide on production, prices, investment, and R&D. Households decide on consumption, saving, and portfolio allocation.
+
+KEY THEORETICAL CONTRIBUTIONS:
+
+The MMM-WEALTH model operationalizes:
+	- Duesenberry's relative income hypothesis via interpersonal and intertemporal consumption ratchets
+	- Kaleckian distribution theory through endogenous profit shares and capacity-driven employment
+	- Post-Keynesian financial dynamics via Minsky-style liquidity preference and debt constraints
+	- Piketty's r > g mechanism through financialization and asset shortage dynamics
+	- Complexity emergence where macro inequality patterns emerge from micro household interactions
+
+TIMELINE OF EVENTS:
+
+1. Planned Production: (firm decision) For consumption and intermediate goods depends on expected sales; for capital goods depends on effective orders.
+
+2. Effective Production: Depends on productive capacity and inputs availability. Firms use labor, capital and inputs based on Leontief production function.
+
+3. Price Decision: (firm decision) Weighted average among desired price and average market price; desired price determined by markup over variable cost.
+
+4. External Sector: Exports determined by external income and income elasticity on world market.
+
+5. Employment Transitions (NEW): (household event) MARKOV employment dynamics for worker households.
+	i. Capacity utilization gap computed (actual vs target).
+	ii. Hiring probabilities increase when gap positive (expansion).
+	iii. Firing probabilities increase when gap negative (contraction).
+	iv. Skill-biased: high-skill workers protected, hired first.
+
+6. Total Sectoral Orders:
+	i. Consumption Goods: depends on household consumption demand and exports.
+	ii. Capital Goods: depends on firms' investment decisions and exports.
+	iii. Intermediate Goods: (firm decision) depends on firms' orders for next period production.
+
+7. Firm's Orders: Effective orders depend on total sectoral demand and firm's market share via replicator dynamics.
+
+8. Sales: Determined by effective orders. Unmet orders become delivery delay affecting competitiveness.
+
+9. Income Creation:
+	i. Functional Distribution:
+		Total Wages: government wages + private wages (sector production * unit wage + R&D expenses).
+		Total Profits: revenue minus indirect tax, R&D expenses, and unit variable cost.
+	ii. Personal Distribution (NEW - Household Level):
+		Wage Income: distributed to employed workers (skill-weighted or equal).
+		Profit Income: distributed to capitalists via q-exponential shares.
+		Unemployment Benefits: distributed equally to unemployed workers.
+		Interest Income: deposits * interest rate for each household.
+
+10. Household Consumption Decision (NEW): (household decision)
+	i. Reference income updated (Duesenberry ratchet with asymmetric adjustment).
+	ii. Propensity to spend computed (income percentile + ratchet boost).
+	iii. Desired consumption determined (domestic + imported).
+	iv. Budget constraint applied (internal funds + available credit).
+	v. Effective consumption realized subject to sector demand met.
+
+11. Investment Decision: (firm decision) Given financial constraints, firms decide investment amount:
+	i. Investment on capacity expansion (induced by expected sales and utilization).
+	ii. Investment on physical depreciation.
+	iii. Investment given technological obsolescence (autonomous, payback criterion).
+
+12. R&D: Innovation and imitation processes following Nelson & Winter (1982) two-stage stochastic search.
+
+13. Financial Decisions:
+	i. Firm Loans: credit demand based on investment needs and liquidity preference.
+	ii. Household Loans (NEW): credit demand based on consumption gap and debt capacity.
+	iii. Bank Allocation: credit rationing based on creditworthiness; households receive priority.
+
+14. Wealth Accumulation (NEW): (household event)
+	i. Deposits updated (savings + loans - consumption - debt service).
+	ii. Financial assets updated (capitalists: asset purchases + capital gains + Buy-Borrow-Die strategy).
+	iii. Net wealth computed (deposits + financial assets - loans).
+
+15. Wealth Concentration (NEW): (emergent phenomenon)
+	i. Capitalist wealth share computed (capitalist net wealth / total net wealth).
+	ii. r_pi > g mechanism: when returns on wealth exceed growth, concentration accelerates.
+	iii. Gini coefficients for income and wealth computed (emergent, not calibrated).
+	iv. Long-run tendency: capitalist wealth share approaches 100% under r_pi > g.
+
+16. Wealth Taxation (NEW): (policy response, Stage 7, if enabled)
+	i. Tax liability computed on net wealth above threshold (lagged base for SFC).
+	ii. Two-stage behavioral payment: liquidity decision then debt-vs-asset decision.
+	iii. Payment sources: deposits, asset liquidation, or borrowing.
+	iv. Revenue redistributed to eligible households (below median income).
+
+17. Wealth Tax Evasion (NEW): (behavioral response, Stage 9, if enabled)
+	i. Capital flight decision: move deposits offshore if tax benefit > interest differential.
+	ii. Asset evasion decision: hide assets based on audit probability and penalty rate.
+	iii. Repatriation: mandatory (liquidity needs) or discretionary (interest arbitrage).
+	iv. Government enforcement: dynamic audit probability responds to evasion rate.
+
+18. Entry and Exit: Firms exit due to small market share or high debt rate. Entry occurs only to replace exiting firms.
+
+HOUSEHOLD AGENT STRUCTURE:
+
+Each household is characterized by:
+
+Identity Parameters:
+	"household_id"							:Unique identifier
+	"household_type"						:0 (worker) or 1 (capitalist)
+
+Behavioral Parameters (heterogeneous):
+	"household_skill"						:Labor productivity (log-normal, E[X]=1.0)
+	"household_propensity_to_spend"					:MPC (type-dependent, workers=0.9, capitalists=0.5)
+	"household_liquidity_preference"				:Savings preference (normal distribution)
+	"household_habit_persistence"					:Consumption ratchet strength (beta)
+	"household_habit_inflation"					:Fast habit adjustment (lambda+)
+	"household_habit_deflation"					:Slow habit adjustment (lambda-)
+	"household_profit_share"					:Share of profits (q-exponential for capitalists)
+
+EMPLOYMENT DYNAMICS (NEW):
+
+Gap-driven MARKOV transitions replace implicit wage shares:
+	Gap = Country_Capacity_Utilization - target_utilization
+	P_hire = base_hire * (1 + hiring_speed * max(0, Gap)) * skill_boost
+	P_fire = base_fire * (1 + firing_speed * max(0, -Gap)) / skill_protect
+
+Employment responds to demand conditions following Kaleckian/Post-Keynesian principles.
+
+CONSUMPTION BEHAVIOR (DUESENBERRY RATCHET):
+
+Reference Income Evolution:
+	If Y_t > R_{t-1}: R_t = R_{t-1} + lambda+ * (Y_t - R_{t-1})   [fast inflation]
+	If Y_t <= R_{t-1}: R_t = R_{t-1} + lambda- * (Y_t - R_{t-1})  [slow deflation]
+
+Propensity to Spend:
+	Base MPC = f(income_percentile)  [generalized logistic, decreasing]
+	Ratchet Boost = beta * max(0, 1 - Y/R)  [penalty when below reference]
+	Final MPC = Base + Ratchet  [can exceed 1.0 for distressed households]
+
+WEALTH ACCUMULATION (PIKETTY r_pi > g):
+
+The model operationalizes Piketty's central inequality:
+	r_effective = (Profit_Income + Capital_Gains + Interest) / Net_Wealth
+	g = Country_Annual_Real_Growth
+	When r_pi > g (sustained): Wealth concentrates toward capitalists
+
+Financialization mechanism:
+	Savings > Investment opportunities -> Asset shortage -> Asset price inflation
+	-> r_assets > r_productive -> Shift to financial assets -> Real investment falls
+	-> Growth slows (g down) -> r > g intensifies -> Wealth concentration accelerates
+
+*******************************************************************************************************
+
+HOW TO READ THE CODE:
+
+--All objects use full capital letters
+--All variables begin with capital letters
+--All parameters begin with small letters
+
+--Most COUNTRY variable names begin with "Country_"
+--Most SECTOR variable names begin with "Sector_"
+--Most FIRM variable names begin with "Firm_"
+--Most HOUSEHOLD variable names begin with "Household_" (replaces CLASS)
+--Most GOVERNMENT variable names begin with "Government_"
+--Most FINANCIAL SECTOR variable names begin with "Financial_Sector_"
+--Most BANK variable names begin with "Bank_"
+
+--Variables are grouped in additional files:
+	fun_households.h		:Household agent equations (NEW)
+	fun_macro.h			:Country-level aggregations
+	fun_government.h		:Government sector
+	fun_analysis.h			:Analysis and diagnostic variables
+	fun_init_2.h			:Initialization procedures
+	fun_support.h			:Support functions
+	fun_diagnostics.h		:Diagnostic system
+
+--Frequency Parameters:
+	"annual_frequency"
+	"sector_investment_frequency"
+	"sector_price_frequency"
+
+--Control Parameters:
+These parameters usually begin their names with "begin_" or "switch_".
+
+--Support Functions (fun_support.h):
+	"ROUND", "LAG_SUM", "LAG_AVE", "LAG_GROWTH", "qexponential"
+
+--Global Pointers:
+	"consumption", "capital", "input"
+	"government", "financial", "external"
+	"country", "centralbank"
+	"households" (NEW - replaces aclass, bclass, cclass)
+
+*************************************************************************************************
+
+MODEL CALIBRATION AND INITIALIZATION
+
+This version includes automatic initialization and calibration procedures. Most parameters containing "initial" are used only for this procedure.
+
+Hypothesis:
+1-All firms start homogeneously inside each sector. Heterogeneity generated during simulation.
+2-Households start with heterogeneous parameters via distributions. Wealth inequality emerges endogenously.
+3-The economy starts in a non-growth steady-state position.
+4-All stock-flow ratios must be constant.
+
+Essential calibration parameters: see variable "Initialization_2".
+
+NEW Household Parameters:
+	"number_households"						:Total number of household agents (100-10,000+)
+	"capitalist_population_share"					:Fraction of households that are capitalists
+	"household_profit_q"						:Q-exponential shape parameter (1.5 = realistic)
+	"household_profit_lambda"					:Q-exponential scale parameter
+	"employment_base_hire_rate"					:MARKOV baseline hiring probability
+	"employment_base_fire_rate"					:MARKOV baseline firing probability
+	"employment_hiring_speed"					:Sensitivity to positive utilization gap
+	"employment_firing_speed"					:Sensitivity to negative utilization gap
+	"employment_target_utilization"					:Target capacity utilization (default 0.85)
+
+*******************************************************************************************************
+
+MODEL CONTROL PARAMETERS
+
+"switch_household_heterogeneity"					:Master switch for heterogeneity
+	0= Homogeneous (representative-agent validation mode)
+	1= Heterogeneous (full distributional parameters)
+
+"switch_household_tax_structure"					:Direct taxation sources
+	0= No Income Taxation
+	1= Taxation on Wages Only
+	2= Taxation on Profits Only
+	3= Taxation on Wages and Profits
+	4= Taxation on Wages, Profits and Interest Gains
+	5= Taxation on Wages, Profits, Interest and Stock of Wealth
+
+"wealth_tax_rate"							:Marginal rate on taxable wealth (e.g., 0.03 = 3%)
+"wealth_tax_threshold"							:Exemption level (only wealth above this is taxed)
+
+"switch_monetary_policy"						:Monetary policy rules
+	0= Fixed Real Interest Rate
+	1= Taylor Rule
+	2= Smithin Rule
+	3= Pasinetti Rule
+	4= Kansas City Rule
+
+"switch_entry"								:Firm entry/exit dynamics
+	0= No entry
+	1= Entry
+
+"switch_extra_imports"							:Import behavior for unmet demand
+	0= No Extra Imports
+	1= Extra Imports
+
+"switch_interest_payment"						:Interest on loans
+	0= Fixed Interest Rate
+	1= Flexible Interest Rate
+
+*******************************************************************************************************
+
+VALIDATION AND CONSISTENCY CHECKS
+
+Stock-Flow Consistency:
+	GDP = Wages + Profits + Indirect_Taxes (Production identity)
+	GDP = C + I + G + X - M (Demand identity)
+	SUM(Household_Wage_Income) = Country_Total_Wages
+	SUM(Household_Profit_Income) = Country_Total_Profits
+	Government_Wealth_Tax_Revenue = SUM(Household_Wealth_Tax_Payment)
+
+Distributional Realism:
+	Income Gini: Expected 0.35-0.55 (OECD benchmark: 0.30-0.50)
+	Wealth Gini: Expected 0.70-0.90 (US: 0.85, Europe: 0.70)
+	Unemployment: Expected 3-12% (NAIRU: 4-6%)
+	Wage share: Expected 50-70% (Historical: 55-65%)
+
+*******************************************************************************************************
+
+SAMPLE CONFIGURATIONS:
+
+Sim1_HH
+--Household disaggregation enabled
+--Taylor Rule monetary policy
+--Flexible Surplus Target
+--Flexible Exchange Rate
+--Credit Rationing
+--Wealth taxation enabled
+
+Backward Compatibility:
+--With switch_household_heterogeneity=0, macro trajectories replicate UFRJ class-based results
+
+*******************************************************************************************************
+
+NEW ANALYTICAL CAPABILITIES:
+
+Distributional Policy Analysis:
+	- Wealth tax incidence by wealth decile
+	- Effective tax rates across income distribution
+	- Behavioral responses to taxation
+	- Transfer targeting effectiveness
+
+Labor Market Dynamics:
+	- Skill-biased unemployment during recessions
+	- Hysteresis from prolonged unemployment
+	- Employment protection policy analysis
+
+Consumption Dynamics:
+	- Consumption collapse scenarios (coordinated de-leveraging)
+	- Relative income effects on aggregate demand
+	- Asymmetric business cycles
+
+Financial Stability Analysis:
+	- Household leverage distributions
+	- Debt-at-risk analysis
+	- Credit constraint heterogeneity
+
+Secular Stagnation and Financialization:
+	- Asset shortage dynamics
+	- Wealth-to-capital ratio evolution
+	- r > g mechanism analysis
+
+Key Analysis Variables:
+	"Country_Gini_Index"						:Income inequality (emergent)
+	"Country_Gini_Index_Wealth"					:Wealth inequality (emergent)
+	"Country_Unemployment_Rate"					:Endogenous from MARKOV
+	"Country_Capitalist_Wealth_Share"				:Top wealth concentration
+	"Country_Wealth_Capital_Ratio"					:Financialization indicator
+
+*******************************************************************************************************
+
+REFERENCES:
+
+Post-Keynesian/Kaleckian:
+	- Kalecki, M. (1943). Theory of Economic Dynamics
+	- Duesenberry, J. (1949). Income, Saving, and the Theory of Consumer Behavior
+	- Minsky, H. (1986). Stabilizing an Unstable Economy
+	- Godley, W. & Lavoie, M. (2007). Monetary Economics: An Integrated Approach
+
+Complexity/Evolutionary:
+	- Nelson, R. & Winter, S. (1982). An Evolutionary Theory of Economic Change
+	- Dosi, G. et al. (2010). Schumpeter meeting Keynes
+
+Inequality/Wealth:
+	- Piketty, T. (2014). Capital in the Twenty-First Century
+	- Piketty, T. & Saez, E. (2003). Income Inequality in the United States
+
+
+
