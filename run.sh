@@ -57,11 +57,27 @@ echo "=============================================="
 echo ""
 
 SECONDS=0
+LOG="${DIR}/run.log"
 
 ./lsdNW -f "$CONFIG" -s 1 -e "$SEEDS" \
     -o "$DIR" \
-    -l "${DIR}/run.log" \
-    -b
+    -l "$LOG" \
+    -b &
+
+# Monitor progress until finished
+while pgrep -x lsdNW > /dev/null 2>&1; do
+    ELAPSED=$SECONDS
+    MINS=$((ELAPSED / 60))
+    SECS=$((ELAPSED % 60))
+
+    if [ -f "$LOG" ]; then
+        SEED=$(grep "Simulation .* of .* running" "$LOG" 2>/dev/null | tail -1 | grep -o 'Simulation [0-9]*' | grep -o '[0-9]*')
+        PCT=$(grep '^[.0-9%]*$' "$LOG" 2>/dev/null | grep -o '[0-9]*%' | tail -1)
+        printf "\r  [%02dm %02ds]  Seed %s/%s  %s    " "$MINS" "$SECS" "${SEED:-?}" "$SEEDS" "${PCT:-0%}"
+    fi
+    sleep 3
+done
+wait
 
 ELAPSED=$SECONDS
 
@@ -74,4 +90,5 @@ echo ""
 COUNT=$(ls "${DIR}"/*.res.gz 2>/dev/null | wc -l | xargs)
 MINS=$((ELAPSED / 60))
 SECS=$((ELAPSED % 60))
+echo ""
 echo "Done. ${COUNT} result files in ${DIR}/ (${MINS}m ${SECS}s)"
