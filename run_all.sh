@@ -58,11 +58,38 @@ SECONDS=0
 
 echo ""
 echo "All 4 scenarios launched (one process each)."
-echo "Monitor progress: tail -f Results_Scenario_*/run.log"
 echo ""
+
+# Monitor progress until all processes finish
+while pgrep -x lsdNW > /dev/null 2>&1; do
+    ELAPSED=$SECONDS
+    MINS=$((ELAPSED / 60))
+    SECS=$((ELAPSED % 60))
+
+    STATUS=""
+    for i in 0 1 2 3; do
+        LOG="Results_Scenario_${i}/run.log"
+        if [ ! -f "$LOG" ]; then
+            STATUS="${STATUS}  S${i}: waiting"
+            continue
+        fi
+        if grep -q "Finished" "$LOG" 2>/dev/null; then
+            COUNT=$(ls "Results_Scenario_${i}"/*.res.gz 2>/dev/null | wc -l | xargs)
+            STATUS="${STATUS}  S${i}: done(${COUNT})"
+        else
+            SEED=$(grep "Simulation .* of .* running" "$LOG" 2>/dev/null | tail -1 | grep -o 'Simulation [0-9]*' | grep -o '[0-9]*')
+            PCT=$(grep -o '[0-9]*%' "$LOG" 2>/dev/null | tail -1)
+            STATUS="${STATUS}  S${i}: ${SEED:-?}/${SEEDS} ${PCT:-0%}"
+        fi
+    done
+
+    printf "\r  [%02dm %02ds]%s    " "$MINS" "$SECS" "$STATUS"
+    sleep 3
+done
 wait
 
 ELAPSED=$SECONDS
+echo ""
 
 # Clean up temp files if created
 if [ -n "$CLEANUP_FILES" ]; then
