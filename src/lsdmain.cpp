@@ -1923,7 +1923,7 @@ void update_bar( char *bar, int done, int & last_done, int bar_sz )
 	for ( p = last_done + 1; p <= done; ++p )
 		if ( p % 5 == 0 )
 		{
-			snprintf( perc, MAX_ELEM_LENGTH, "%d%%", p );
+			snprintf( perc, MAX_ELEM_LENGTH, "\nPROG:%d%%", p );
 
 			if ( bar != NULL )
 				strcatn( bar, perc, bar_sz );

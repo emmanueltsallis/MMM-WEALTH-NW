@@ -78,7 +78,7 @@ while pgrep -x lsdNW > /dev/null 2>&1; do
             STATUS="${STATUS}  S${i}: done(${COUNT})"
         else
             SEED=$(grep "Simulation .* of .* running" "$LOG" 2>/dev/null | tail -1 | grep -o 'Simulation [0-9]*' | grep -o '[0-9]*')
-            PCT=$(grep '^[.0-9%]*$' "$LOG" 2>/dev/null | grep -o '[0-9]*%' | tail -1)
+            PCT=$(grep -oE 'PROG:[0-9]+%' "$LOG" 2>/dev/null | grep -oE '[0-9]+%' | tail -1)
             STATUS="${STATUS}  S${i}: ${SEED:-?}/${SEEDS} ${PCT:-0%}"
         fi
     done
