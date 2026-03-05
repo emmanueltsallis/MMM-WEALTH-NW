@@ -385,15 +385,14 @@ v[4] = (v[3] > 0) ? (v[2] / v[3]) : 1.0;
 WRITE("Financial_Sector_Valuation_Ratio", v[4]);
 
 // 4. PRICE ADJUSTMENT = sensitivity × (D - S) / Capital_Stock
-// Using Capital Stock as denominator prevents self-limiting behavior:
-// - Financial Assets can grow faster than Capital Stock via capital gains
-// - This maintains positive inflation rates, enabling wealth divergence (r > g)
-// NOTE: Model abstracts from Minsky-type crises that would bound v in practice
+// Using K as denominator allows v to rise persistently (secular financialization).
+// Without Minsky dynamics, this captures the net secular trend where QE offsets
+// periodic corrections, keeping v on an upward trajectory.
 v[5] = V("financial_asset_price_sensitivity");
 v[6] = (v[3] > 0) ? v[5] * (v[1] - v[0]) / v[3] : 0;
 
-// Bounds to prevent numerical explosion
-v[7] = max(-0.10, min(0.20, v[6]));
+// Cap at 2% per period to keep magnitudes computationally tractable
+v[7] = max(-0.10, min(0.02, v[6]));
 
 RESULT(v[7])
 
