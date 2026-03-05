@@ -1788,6 +1788,10 @@ Var: Class_Stock_Deposits 0 s + n n
 Var: Class_Stock_Loans 0 s + n n
 Var: Class_Transfer_Received 0 s + n n
 Var: Class_Unemployed_Count 0 s + n n
+Var: Class_Weighted_Debt_Sum 0 n + n n
+Var: Class_Wealth_Tax_Payer_Count 0 n + n n
+Var: Class_Evader_Count 0 n + n n
+Var: Class_Employed_Skill 0 n + n n
 Var: Class_Unemployment_Benefits 0 s + n n
 Var: Class_Wage_Income 0 s + n n
 Var: Class_Wealth_Share 0 s + n n
@@ -5265,6 +5269,10 @@ Variable_Class_Transfer_Received
 END_DESCRIPTION
 
 Variable_Class_Unemployed_Count
+Variable_Class_Weighted_Debt_Sum
+Variable_Class_Wealth_Tax_Payer_Count
+Variable_Class_Evader_Count
+Variable_Class_Employed_Skill
 
 END_DESCRIPTION
 
