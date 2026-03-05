@@ -854,7 +854,6 @@ Label Root
 		Var: Country_GDP_Demand
 		Var: Country_Gini_Index
 		Var: Country_Gini_Index_Pretax
-		Var: Country_Inequality_Master
 		Var: Country_Gini_Index_Wealth
 		Var: Country_Hedge_Share
 		Var: Country_Idle_Capacity
@@ -969,6 +968,9 @@ Label Root
 		Var: Country_Palma_Ratio_Income
 		Var: Country_Palma_Ratio_Wealth
 		Var: Country_Palma_Ratio_Wealth_Pretax
+		Var: Country_Theil_Index_Income
+		Var: Country_Theil_Index_Wealth
+		Var: Country_Theil_Index_Wealth_Pretax
 		Var: Country_Top1_Share_Income
 		Var: Country_Top1_Share_Wealth
 		Var: Country_Top1_Share_Wealth_Pretax
@@ -1039,7 +1041,6 @@ Var: Country_Domestic_Intermediate_Demand 0 s + n n
 Var: Country_GDP 10 s + n n	294	294	294	294	294	294	294	294	294	294
 Var: Country_GDP_Demand 0 s + n n
 Var: Country_Gini_Index 0 s + n n
-Var: Country_Inequality_Master 0 n + n n
 Var: Country_Gini_Index_Pretax 0 s + n n
 Var: Country_Gini_Index_Wealth 0 s + n n
 Var: Country_Hedge_Share 0 s + n n
@@ -1109,7 +1110,7 @@ Var: Country_Wealth_Capital_Ratio 0 s + n n
 Var: Country_Total_Household_Stock_Deposits 0 s + n n
 Var: Country_Capitalist_Wealth_Share 0 s + n n
 Var: Country_Wealth_GDP_Ratio 0 s + n n
-Param: country_total_population 0 n + n n	50
+Param: country_total_population 0 n + n n	1000
 Param: capitalist_population_share 0 n + n n	0.05
 Var: Country_Labor_Force 0 s + n n
 Var: Country_Total_Employment 0 s + n n
@@ -1155,6 +1156,9 @@ Var: Country_Gini_Index_Wealth_Pretax 0 s + n n
 Var: Country_Palma_Ratio_Income 0 s + n n
 Var: Country_Palma_Ratio_Wealth 0 s + n n
 Var: Country_Palma_Ratio_Wealth_Pretax 0 s + n n
+Var: Country_Theil_Index_Income 0 s + n n
+Var: Country_Theil_Index_Wealth 0 s + n n
+Var: Country_Theil_Index_Wealth_Pretax 0 s + n n
 Var: Country_Top1_Share_Income 0 s + n n
 Var: Country_Top1_Share_Wealth 0 s + n n
 Var: Country_Top1_Share_Wealth_Pretax 0 s + n n
@@ -1913,7 +1917,7 @@ Param: household_loan_fixed_amortization 0 n + n n	0	0
 
 SIM_NUM 1
 SEED 1
-MAX_STEP 50
+MAX_STEP 500
 EQUATION fun_micro_macro_v.3.6.cpp
 MODELREPORT report_Sim1.html
 
@@ -2633,6 +2637,8 @@ END_DESCRIPTION
 Variable_Country_Wealth_Tax_Revenue
 Stage 7: Aggregate wealth tax collected from all households.
 Only active when switch_class_tax_structure >= 5.
+_INIT_
+All 1 instances equal to 0
 END_DESCRIPTION
 
 Variable_Country_Wealth_Tax_Taxpayer_Count
@@ -2748,10 +2754,6 @@ Computes: Gini, Palma, Top10, Top1, Bottom50, Theil
 Pre-tax wealth = current net wealth + wealth tax paid this period.
 END_DESCRIPTION
 
-Variable_Country_Inequality_Master
-Unified annual master: all inequality indices in a single CYCLE pass.
-END_DESCRIPTION
-
 Variable_Country_Palma_Ratio_Income
 Thin wrapper: Palma Ratio for disposable income.
 Triggers master equation which WRITEs the computed value.
@@ -2763,6 +2765,18 @@ END_DESCRIPTION
 
 Variable_Country_Palma_Ratio_Wealth_Pretax
 Thin wrapper: Palma Ratio for net wealth (pre-tax).
+END_DESCRIPTION
+
+Variable_Country_Theil_Index_Income
+Thin wrapper: Theil Index for disposable income.
+END_DESCRIPTION
+
+Variable_Country_Theil_Index_Wealth
+Thin wrapper: Theil Index for net wealth (post-tax).
+END_DESCRIPTION
+
+Variable_Country_Theil_Index_Wealth_Pretax
+Thin wrapper: Theil Index for net wealth (pre-tax).
 END_DESCRIPTION
 
 Variable_Country_Top1_Share_Income

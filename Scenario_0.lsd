@@ -1844,7 +1844,7 @@ Param: household_habit_persistence 0 s + n n	0	0
 Param: household_habit_inflation 0 s + n n	0	0
 Param: household_habit_deflation 0 s + n n	0	0
 Var: Household_Reference_Income 1 n + n n	0	0
-Var: Household_Income_Percentile 0 n + n n
+Var: Household_Income_Percentile 1 n + n n	0	0
 Var: Household_Real_Autonomous_Consumption 1 n + n n	0	0
 Var: Household_Imports_Share 0 n + n n
 Var: Household_Propensity_to_Spend 0 n + n n
@@ -1864,7 +1864,7 @@ Var: Household_Effective_Expenses 0 n + n n
 Var: Household_Effective_Real_Domestic_Consumption 0 n + n n
 Param: household_profit_share 0 s + n n	0	0
 Var: Household_Unemployment_Benefits 0 n + n n
-Var: Household_Nominal_Gross_Income 0 n + n n
+Var: Household_Nominal_Gross_Income 1 n + n n	0	0
 Var: Household_Avg_Debt_Rate 0 n + n n
 Var: Household_Interest_Rate 0 n + n n
 Var: Household_Interest_Payment 0 n + n n

@@ -297,11 +297,18 @@ EQUATION("Country_Total_Employed_Skill")
 Stage 5.2b: Sum of skill for all employed workers.
 Used by Household_Wage_Income for normalized wage distribution.
 Ensures identity: SUM(Household_Wage_Income) = Country_Total_Wages
-OPTIMIZED: delegates to Class_Employed_Skill (pre-computed by Class_Employed_Count master).
-Capitalists always contribute 0 (excluded in master via class_id check).
+DEADLOCK FIX: Direct CYCLE instead of Class_Employed_Skill to avoid triggering
+Class_Employed_Count master which reads Household_Wage_Income (in-flight).
+Only reads Household_Employment_Status (safe) and household_skill (parameter).
+Capitalists naturally excluded: they always have Household_Employment_Status = 0.
 */
-v[0] = VS(working_class, "Class_Employed_Skill") + VS(capitalist_class, "Class_Employed_Skill");
-RESULT(max(0.001, v[0]))  // Prevent division by zero
+v[0] = 0;
+CYCLES(working_class, cur, "HOUSEHOLD")
+{
+    if(VS(cur, "Household_Employment_Status") > 0)
+        v[0] += VS(cur, "household_skill");
+}
+RESULT(max(0.001, v[0]))
 
 
 EQUATION_DUMMY("Country_Median_Household_Income", "Country_Inequality_Master")
@@ -1111,9 +1118,9 @@ if(do_compute)
 		{
 		CYCLES(cur1, cur, "HOUSEHOLD")
 		{
-			double yd   = VS(cur, "Household_Nominal_Disposable_Income");
-			double yg   = VS(cur, "Household_Nominal_Gross_Income");
-			double w    = VS(cur, "Household_Net_Wealth");
+			double yd   = VLS(cur, "Household_Nominal_Disposable_Income", 1);
+			double yg   = VLS(cur, "Household_Nominal_Gross_Income", 1);
+			double w    = VLS(cur, "Household_Net_Wealth", 1);
 			double wtax = VS(cur, "Household_Wealth_Tax_Payment");
 			double ya   = VLS(cur, "Household_Avg_Real_Income", 1);
 			vals_disp[j]    = yd;    tot_disp  += yd;

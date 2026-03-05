@@ -577,7 +577,7 @@ v[3] = VS(country, "household_propensity_shift");       // b
 v[4] = VS(country, "household_propensity_asymmetry");   // ν
 
 // Get household position
-v[5] = V("Household_Income_Percentile");  // x ∈ [0, 1]
+v[5] = VL("Household_Income_Percentile", 1);  // x ∈ [0, 1], lag-1 to avoid re-entrancy with master
 
 // Calculate base MPC using generalized logistic
 // c̄ = 1 / (1 + e^(k(ax-b)))^(1/ν)
