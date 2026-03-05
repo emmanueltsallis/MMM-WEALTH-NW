@@ -31,6 +31,10 @@
 #define WARN_FIRM_EXIT      0.10  // >10% firms exit in period
 #define WARN_PRICE_HIGH     10.0  // Price index upper bound
 #define WARN_PRICE_LOW      0.1   // Price index lower bound
+
+// Helper macros for NaN/Inf and explosion detection
+#define IS_INVALID(x)           (isnan(x) || isinf(x))
+#define IS_EXPLOSIVE(x, thr)    (fabs(x) > (thr))
 // ============================================================================
 
 // Forward declarations
