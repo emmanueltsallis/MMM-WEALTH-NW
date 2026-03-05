@@ -1,6 +1,6 @@
 # MMM-WEALTH: Micro-Macro Multisectoral Model with Household Wealth Dynamics
 
-A dynamic agent-based macroeconomic model combining Post-Keynesian, Kaleckian, and Neo-Schumpeterian approaches to investigate wealth inequality, taxation, evasion, and capital flight in capitalist economies. Built on the [LSD](https://github.com/marcov64/Lsd) (Laboratory for Simulation Development) framework.
+A mmicro-meso-macro agent-based model combining Post-Keynesian, Kaleckian, and Neo-Schumpeterian frameworks to investigate inequality, wealth taxation, evasion, and capital flight in modern capitalist economies. Built on the [LSD](https://github.com/marcov64/Lsd) (Laboratory for Simulation Development) software.
 
 This repository provides a **standalone headless (no-window) version** that compiles and runs without installing LSD.
 
