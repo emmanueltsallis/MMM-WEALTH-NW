@@ -766,6 +766,10 @@ Label Root
 			Var: Class_Stock_Loans
 			Var: Class_Transfer_Received
 			Var: Class_Unemployed_Count
+			Var: Class_Weighted_Debt_Sum
+			Var: Class_Wealth_Tax_Payer_Count
+			Var: Class_Evader_Count
+			Var: Class_Employed_Skill
 			Var: Class_Unemployment_Benefits
 			Var: Class_Wage_Income
 			Var: Class_Wealth_Share
