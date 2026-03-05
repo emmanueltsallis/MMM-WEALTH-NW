@@ -529,34 +529,17 @@ RESULT(v[7])
 
 EQUATION("Household_Income_Percentile")
 /*
-Stage 4.3: Household position in income distribution [0, 1].
+Stage 7 OPTIMIZED: True rank-based percentile in [0, 1].
 
-Uses median-based proxy for efficiency:
-  income_ratio = Y / median_income
-  percentile = income_ratio / (1 + income_ratio)
+Value is written annually by Country_Inequality_Master via WRITES() using
+a full argsort of Household_Avg_Real_Income. This replaces the old biased
+proxy (x/(1+x)) which compressed all households near 0.5.
 
-Properties:
-- Maps [0, ∞) to [0, 1)
-- At median income: percentile = 0.5
-- Poor (Y << median): percentile → 0
-- Rich (Y >> median): percentile → 1
-
-Uses AVERAGE income because:
-1. Social position reflects sustained income, not single-period fluctuation
-2. Consistent with Duesenberry relative income theory
-3. Household_Avg_Real_Income uses LAG_AVE internally - avoids circular dependency
-4. Target model uses same approach (VL(Avg_Nominal_Income, 1))
+This equation triggers the master if not yet computed this period, then
+returns the pre-written rank value (held across non-annual periods).
 */
-v[0] = V("Household_Avg_Real_Income");  // Average income - stable, safe from circularity
-v[1] = VS(country, "Country_Median_Household_Income");
-
-// Income ratio relative to median
-v[2] = (v[1] > 0.01) ? v[0] / v[1] : 1.0;
-
-// Transform to [0, 1] range: x / (1 + x)
-v[3] = v[2] / (1 + v[2]);
-
-RESULT(v[3])
+VS(country, "Country_Inequality_Master");  // ensure master has run (no-op if already computed)
+RESULT(CURRENT)  // return value written by WRITES() in master
 
 
 EQUATION("Household_Propensity_to_Spend")

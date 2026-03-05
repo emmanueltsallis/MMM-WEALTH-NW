@@ -854,6 +854,7 @@ Label Root
 		Var: Country_GDP_Demand
 		Var: Country_Gini_Index
 		Var: Country_Gini_Index_Pretax
+		Var: Country_Inequality_Master
 		Var: Country_Gini_Index_Wealth
 		Var: Country_Hedge_Share
 		Var: Country_Idle_Capacity
@@ -967,9 +968,6 @@ Label Root
 		Var: Country_Palma_Ratio_Income
 		Var: Country_Palma_Ratio_Wealth
 		Var: Country_Palma_Ratio_Wealth_Pretax
-		Var: Country_Theil_Index_Income
-		Var: Country_Theil_Index_Wealth
-		Var: Country_Theil_Index_Wealth_Pretax
 		Var: Country_Top1_Share_Income
 		Var: Country_Top1_Share_Wealth
 		Var: Country_Top1_Share_Wealth_Pretax
@@ -1041,6 +1039,7 @@ Var: Country_Domestic_Intermediate_Demand 0 s + n n
 Var: Country_GDP 10 s + n n	294	294	294	294	294	294	294	294	294	294
 Var: Country_GDP_Demand 0 s + n n
 Var: Country_Gini_Index 0 s + n n
+Var: Country_Inequality_Master 0 n + n n
 Var: Country_Gini_Index_Pretax 0 s + n n
 Var: Country_Gini_Index_Wealth 0 s + n n
 Var: Country_Hedge_Share 0 s + n n
@@ -1155,9 +1154,6 @@ Var: Country_Gini_Index_Wealth_Pretax 0 s + n n
 Var: Country_Palma_Ratio_Income 0 s + n n
 Var: Country_Palma_Ratio_Wealth 0 s + n n
 Var: Country_Palma_Ratio_Wealth_Pretax 0 s + n n
-Var: Country_Theil_Index_Income 0 s + n n
-Var: Country_Theil_Index_Wealth 0 s + n n
-Var: Country_Theil_Index_Wealth_Pretax 0 s + n n
 Var: Country_Top1_Share_Income 0 s + n n
 Var: Country_Top1_Share_Wealth 0 s + n n
 Var: Country_Top1_Share_Wealth_Pretax 0 s + n n
@@ -2165,6 +2161,10 @@ Variable_Country_GDP_Demand
 
 END_DESCRIPTION
 
+Variable_Country_Inequality_Master
+Unified annual master: all inequality indices in a single CYCLE pass.
+END_DESCRIPTION
+
 Variable_Country_Gini_Index
 
 END_DESCRIPTION
@@ -2763,18 +2763,6 @@ END_DESCRIPTION
 
 Variable_Country_Palma_Ratio_Wealth_Pretax
 Thin wrapper: Palma Ratio for net wealth (pre-tax).
-END_DESCRIPTION
-
-Variable_Country_Theil_Index_Income
-Thin wrapper: Theil Index for disposable income.
-END_DESCRIPTION
-
-Variable_Country_Theil_Index_Wealth
-Thin wrapper: Theil Index for net wealth (post-tax).
-END_DESCRIPTION
-
-Variable_Country_Theil_Index_Wealth_Pretax
-Thin wrapper: Theil Index for net wealth (pre-tax).
 END_DESCRIPTION
 
 Variable_Country_Top1_Share_Income
