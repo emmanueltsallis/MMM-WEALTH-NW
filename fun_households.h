@@ -345,7 +345,7 @@ switch_class_tax_structure (reusing class switch for consistency):
 */
 v[0] = V("Household_Wage_Income");            // Worker wage income (0 for capitalists)
 v[1] = V("Household_Profit_Income");          // Capitalist profit income (0 for workers)
-v[2] = V("Household_Deposits_Return");        // Interest income
+v[2] = VL("Household_Deposits_Return", 1);   // Interest income (lagged — matches Gross Income; breaks circular dependency)
 
 v[3] = VS(country, "switch_class_tax_structure");  // Tax structure
 v[4] = VS(country, "household_income_tax_rate");   // Income tax rate (Stage 5.5: moved to COUNTRY level)
