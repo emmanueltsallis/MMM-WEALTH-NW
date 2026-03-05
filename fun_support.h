@@ -126,18 +126,10 @@ double gini_coefficient(double* values, int n)
 {
 	if(n <= 1) return 0.0;
 
-	// Sort values (simple bubble sort - OK for small n)
+	// Sort values using std::sort O(n log n)
 	double* sorted = new double[n];
 	for(int i = 0; i < n; i++) sorted[i] = values[i];
-	for(int i = 0; i < n-1; i++) {
-		for(int j = 0; j < n-i-1; j++) {
-			if(sorted[j] > sorted[j+1]) {
-				double temp = sorted[j];
-				sorted[j] = sorted[j+1];
-				sorted[j+1] = temp;
-			}
-		}
-	}
+	std::sort(sorted, sorted + n);
 
 	// Gini formula: G = (2Σ(i×x_i) - (n+1)Σx_i) / (n×Σx_i)
 	double sum_ix = 0, sum_x = 0;

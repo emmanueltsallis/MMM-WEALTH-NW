@@ -58,13 +58,24 @@ Returns the number of employed households; WRITEs all other class totals.
 	double propensity = 0, sav_rate = 0, debt_rate = 0, ref_inc = 0;
 	// Count accumulators
 	double employed = 0, unemployed = 0;
+	// Derived accumulators (for country-level delegation)
+	double empl_skill  = 0;   // sum of skill for employed workers (Country_Total_Employed_Skill)
+	double wt_count    = 0;   // count of households paying wealth tax (Country_Wealth_Tax_Taxpayer_Count)
+	double evader_cnt  = 0;   // count of evading households (Country_Evader_Count)
+	double wt_debt_sum = 0;   // Σ(debt_rate_i × income_i) for Country_Debt_Rate
 	i = 0;
+
+	double this_class = V("class_id");  // 0=workers, 1=capitalists
 
 	CYCLE(cur, "HOUSEHOLD")
 	{
 		double emp = VS(cur, "Household_Employment_Status");
 		if(emp > 0) employed++;
 		else        unemployed++;
+
+		// employed skill (workers only — capitalists always have class_id=1)
+		if(this_class == 0 && emp > 0)
+			empl_skill += VS(cur, "household_skill");
 
 		// income
 		wage         += VS(cur, "Household_Wage_Income");
@@ -100,6 +111,13 @@ Returns the number of employed households; WRITEs all other class totals.
 		net_wealth += VS(cur, "Household_Net_Wealth");
 		savings    += VS(cur, "Household_Savings");
 
+		// weighted debt rate contribution (for Country_Debt_Rate)
+		{ double dep_i = VS(cur, "Household_Stock_Deposits");
+		  double lon_i = VS(cur, "Household_Stock_Loans");
+		  double dis_i = VS(cur, "Household_Nominal_Disposable_Income");
+		  double dr = (dep_i > 0.001) ? lon_i / dep_i : 0;
+		  wt_debt_sum += dr * dis_i; }
+
 		// financial flows
 		int_pay   += VS(cur, "Household_Interest_Payment");
 		debt_pay  += VS(cur, "Household_Debt_Payment");
@@ -110,16 +128,17 @@ Returns the number of employed households; WRITEs all other class totals.
 
 		// wealth tax
 		wt_owed   += VS(cur, "Household_Wealth_Tax_Owed");
-		wt_pay    += VS(cur, "Household_Wealth_Tax_Payment");
+		{ double wt_p = VS(cur, "Household_Wealth_Tax_Payment"); wt_pay += wt_p; if(wt_p > 0.01) wt_count++; }
 		wt_dep    += VS(cur, "Household_Wealth_Tax_From_Deposits");
 		wt_assets += VS(cur, "Household_Wealth_Tax_From_Assets");
 		wt_borrow += VS(cur, "Household_Wealth_Tax_From_Borrowing");
 		wt_buffer += VS(cur, "Household_Wealth_Tax_From_Buffer");
 
 		// evasion & capital flight
-		off_dep   += VS(cur, "Household_Deposits_Offshore");
+		{ double off_i = VS(cur, "Household_Deposits_Offshore"); off_dep += off_i;
+		  double und_i = VS(cur, "Household_Assets_Undeclared"); undecl  += und_i;
+		  if(off_i > 0.01 || und_i > 0.01) evader_cnt++; }
 		dom_dep   += VS(cur, "Household_Deposits_Domestic");
-		undecl    += VS(cur, "Household_Assets_Undeclared");
 		decl      += VS(cur, "Household_Assets_Declared");
 		repat     += VS(cur, "Household_Repatriated_Deposits");
 		asset_pen += VS(cur, "Household_Asset_Penalty");
@@ -139,6 +158,12 @@ Returns the number of employed households; WRITEs all other class totals.
 
 		i++;
 	}
+
+	// Write derived counts/sums (delegated from country-level equations)
+	WRITE("Class_Employed_Skill",          empl_skill);
+	WRITE("Class_Wealth_Tax_Payer_Count",  wt_count);
+	WRITE("Class_Evader_Count",            evader_cnt);
+	WRITE("Class_Weighted_Debt_Sum",       wt_debt_sum);
 
 	// Write counts
 	WRITE("Class_Unemployed_Count", unemployed);
@@ -224,7 +249,12 @@ RESULT(employed)
  *============================================================================*/
 
 // Counts
-EQUATION_DUMMY("Class_Unemployed_Count", "Class_Employed_Count")
+EQUATION_DUMMY("Class_Unemployed_Count",        "Class_Employed_Count")
+// Derived country-level delegates
+EQUATION_DUMMY("Class_Employed_Skill",          "Class_Employed_Count")
+EQUATION_DUMMY("Class_Wealth_Tax_Payer_Count",  "Class_Employed_Count")
+EQUATION_DUMMY("Class_Evader_Count",            "Class_Employed_Count")
+EQUATION_DUMMY("Class_Weighted_Debt_Sum",       "Class_Employed_Count")
 
 // Income
 EQUATION_DUMMY("Class_Wage_Income",               "Class_Employed_Count")

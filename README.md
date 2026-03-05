@@ -2,7 +2,7 @@
 
 A mmicro-meso-macro agent-based model combining Post-Keynesian, Kaleckian, and Neo-Schumpeterian frameworks to investigate inequality, wealth taxation, evasion, and capital flight in modern capitalist economies. Built on the [LSD](https://github.com/marcov64/Lsd) (Laboratory for Simulation Development) software.
 
-This repository provides a **standalone headless (no-window) version** that compiles and runs without installing LSD.
+This repository provides a **standalone headless (no-window) version** that compiles and runs without installing LSD. For the full GUI version (with LSD's graphical browser, real-time plotting, and interactive configuration), see [MMM-WEALTH](https://github.com/emmanueltsallis/MMM-WEALTH).
 
 ---
 

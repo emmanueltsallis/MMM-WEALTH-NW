@@ -632,6 +632,14 @@ void log_income_distribution()
     LOG("\n  Gini (Post-Tax):  %12.3f", gini_income);
     LOG("\n  Gini (Pre-Tax):   %12.3f", gini_pretax);
     LOG("\n  Gini (Wealth):    %12.3f", gini_wealth);
+
+    // Plausibility range checks (catches NaN, zero, explosion, master not running)
+    if(IS_INVALID(gini_income) || gini_income < 0.1 || gini_income > 0.99)
+        LOG("\n  *** WARNING: Country_Gini_Index out of plausible range: %.4f", gini_income);
+    if(IS_INVALID(gini_pretax) || gini_pretax < 0.1 || gini_pretax > 0.99)
+        LOG("\n  *** WARNING: Country_Gini_Index_Pretax out of plausible range: %.4f", gini_pretax);
+    if(IS_INVALID(gini_wealth) || gini_wealth < 0.1 || gini_wealth > 0.99)
+        LOG("\n  *** WARNING: Country_Gini_Index_Wealth out of plausible range: %.4f", gini_wealth);
 }
 
 
