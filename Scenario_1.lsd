@@ -1076,7 +1076,7 @@ Param: switch_foroward_looking 0 n + n n	0
 Param: household_skill_stddev 0 n + n n	0.3
 Param: household_avg_autonomous_consumption_adjustment 0 n + n n	0.4
 Param: household_avg_import_propensity 0 n + n n	0.33
-Param: switch_household_propensity_hysteresis 0 n + n n	1
+Param: switch_household_propensity_hysteresis 0 n + n n	0
 Param: household_habit_inflation_alpha 0 n + n n	5
 Param: household_habit_inflation_beta 0 n + n n	1
 Param: household_habit_deflation_alpha 0 n + n n	2
