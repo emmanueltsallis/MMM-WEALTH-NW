@@ -12,8 +12,6 @@
 #   ./run_all.sh 10 500       10 seeds, 500 households
 # =============================================================
 
-set -e
-
 SEEDS="${1:-50}"
 POP="${2:-}"
 
@@ -44,60 +42,63 @@ echo "  Seeds per scenario: $SEEDS${POP_MSG}"
 echo "=============================================="
 echo ""
 
+PIDS=""
 for i in 0 1 2 3; do
     DIR="Results_Scenario_${i}"
     mkdir -p "$DIR"
     echo "Starting Scenario_${i} -> ${DIR}/ ($SEEDS seeds)"
-    ./lsdNW -f "Scenario_${i}${SUFFIX}.lsd" -s 1 -e "$SEEDS" \
+    nohup ./lsdNW -f "Scenario_${i}${SUFFIX}.lsd" -s 1 -e "$SEEDS" \
         -o "$DIR" \
-        -l "${DIR}/run.log" \
-        -b &
+        -b > "${DIR}/run.log" 2>&1 &
+    PIDS="$PIDS $!"
+done
+# Detach children so they survive if this script is killed
+for pid in $PIDS; do
+    disown "$pid" 2>/dev/null
 done
 
-SECONDS=0
-
 echo ""
-echo "All 4 scenarios launched (one process each)."
+echo "All 4 scenarios launched (PIDs:$PIDS)"
+echo "Processes are independent — safe to close this terminal."
+echo ""
+echo "Monitor with:  watch -n5 'for i in 0 1 2 3; do echo \"S\$i: \$(grep -oE \"PROG:[0-9]+%\" Results_Scenario_\$i/run.log 2>/dev/null | tail -1)\"; done'"
 echo ""
 
-# Monitor progress until all processes finish
-while pgrep -x lsdNW > /dev/null 2>&1; do
-    ELAPSED=$SECONDS
-    MINS=$((ELAPSED / 60))
-    SECS=$((ELAPSED % 60))
+# Optional: stay and monitor (Ctrl-C safe — won't kill simulations)
+echo "Live monitor (Ctrl-C to detach):"
+echo ""
 
+trap '' INT  # Ignore Ctrl-C in monitor loop (won't kill children)
+while true; do
+    ALIVE=0
     STATUS=""
     for i in 0 1 2 3; do
         LOG="Results_Scenario_${i}/run.log"
-        if [ ! -f "$LOG" ]; then
-            STATUS="${STATUS}  S${i}: waiting"
-            continue
-        fi
         if grep -q "Finished" "$LOG" 2>/dev/null; then
             COUNT=$(ls "Results_Scenario_${i}"/*.res.gz 2>/dev/null | wc -l | xargs)
-            STATUS="${STATUS}  S${i}: done(${COUNT})"
-        else
+            STATUS="${STATUS}  S${i}: DONE(${COUNT})"
+        elif [ -f "$LOG" ]; then
+            ALIVE=$((ALIVE + 1))
             SEED=$(grep "Simulation .* of .* running" "$LOG" 2>/dev/null | tail -1 | grep -o 'Simulation [0-9]*' | grep -o '[0-9]*')
             PCT=$(grep -oE 'PROG:[0-9]+%' "$LOG" 2>/dev/null | grep -oE '[0-9]+%' | tail -1)
             STATUS="${STATUS}  S${i}: ${SEED:-?}/${SEEDS} ${PCT:-0%}"
+        else
+            STATUS="${STATUS}  S${i}: waiting"
         fi
     done
 
-    printf "\r  [%02dm %02ds]%s    " "$MINS" "$SECS" "$STATUS"
-    sleep 1
+    ELAPSED=$SECONDS
+    HRS=$((ELAPSED / 3600))
+    MINS=$(((ELAPSED % 3600) / 60))
+    SECS=$((ELAPSED % 60))
+    printf "\r  [%02dh %02dm %02ds]%s    " "$HRS" "$MINS" "$SECS" "$STATUS"
+
+    [ "$ALIVE" -eq 0 ] && break
+    sleep 5
 done
-wait
+trap - INT
 
-ELAPSED=$SECONDS
-MINS=$((ELAPSED / 60))
-SECS=$((ELAPSED % 60))
-printf "\r  [%02dm %02ds]  S0: done  S1: done  S2: done  S3: done    \n" "$MINS" "$SECS"
-
-# Clean up temp files if created
-if [ -n "$CLEANUP_FILES" ]; then
-    rm -f $CLEANUP_FILES
-fi
-
+echo ""
 echo ""
 echo "=============================================="
 echo "  All scenarios complete!"
@@ -106,8 +107,14 @@ for i in 0 1 2 3; do
     COUNT=$(ls Results_Scenario_${i}/*.res.gz 2>/dev/null | wc -l | xargs)
     echo "  Scenario_${i}: ${COUNT} result files"
 done
-MINS=$((ELAPSED / 60))
-SECS=$((ELAPSED % 60))
+ELAPSED=$SECONDS
+HRS=$((ELAPSED / 3600))
+MINS=$(((ELAPSED % 3600) / 60))
 echo ""
-echo "  Total time: ${MINS}m ${SECS}s"
+echo "  Total time: ${HRS}h ${MINS}m"
 echo ""
+
+# Clean up temp files if created
+if [ -n "$CLEANUP_FILES" ]; then
+    rm -f $CLEANUP_FILES
+fi
